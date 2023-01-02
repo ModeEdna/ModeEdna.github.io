@@ -138,5 +138,19 @@
     "title": "NLP Final Project",
     "section": "Build the Model",
     "text": "Build the Model\nWe will use transformers’ GPT2LMHeadModel here in order to retrieve our model. Using the gpt2 option as we used with the tokenizer, we can retrieve a manageable version of GPT2.\nWe must also resize the token embeddings here, as we have added special tokens to our tokenizer (<SOS>, <EOS>, and <PAD>). This way, our pretrained tokenizer and model can be compatible with one another.\n\n\nCode\n# initialize the model using gpt2\nmodel = GPT2LMHeadModel.from_pretrained(\"gpt2\")\n\n# resize token embeddings, as explained above\nmodel.resize_token_embeddings(len(tokenizer));\n\n\n\n\n\nSince our model will require strong computational resources, we could place the model directly on Google Colab’s GPU, but we opt for a safer way of doing so. Below, we only place the model on the GPU if it is available.\n\n\nCode\n# send the model to the available device\nif torch.cuda.is_available():\n  # if available, use GPU\n  device = torch.device('cuda:0')\nelse:\n  # otherwise, use CPU\n  device = torch.device('cpu')\n\n# push the model to the selected device\nmodel.to(device);\n\n# report the device that the model was pushed to\nprint('The model has been pushed to device:', device)\n\n\nThe model has been pushed to device: cuda:0\n\n\nWe can also initialize our optimizer and create a scheduled learning rate. These components will allow our model to learn in a more constructive way, rather than a more erratic one.\nNote that we use torch.optim.AdamW here, rather than transformers.AdamW, because the latter is deprecated.\n\n\nCode\n# initialize optimizer\noptimizer = AdamW(model.parameters(), lr = lr_init)\n\n# initialize a scheduled learning rate\nlr = get_linear_schedule_with_warmup(\n    optimizer, num_warmup_steps = warmup_steps, \n    num_training_steps = len(train_batches))"
+  },
+  {
+    "objectID": "notebooks/NLP_Final_Project.html",
+    "href": "notebooks/NLP_Final_Project.html",
+    "title": "NLP Final Project",
+    "section": "",
+    "text": "For my Natural Language Processing course final project, my team chose to create a model that could generate code based on a user’s prompt. To do this, we used Google’s Colab and the Transformers library. Although the results weren’t perfect, we were happy with our ability to train the model and look forward to taking the next steps to improve our outcome."
+  },
+  {
+    "objectID": "notebooks/final511.html",
+    "href": "notebooks/final511.html",
+    "title": "DSAN Final",
+    "section": "",
+    "text": "My best accuracy score was 65%, but I believe my success was limited by the data I was able to gather. I was aiming for an accuracy rate of 70%, so I consider it a minor success. Since the project itself is a website, I can’t include much of it on this page, so here is a link to the page so you can learn more about it. Now that the semester is over, I can look back at the project and understand what can be improved. However, I am proud of the aesthetics and the page’s ease of understanding."
   }
 ]
